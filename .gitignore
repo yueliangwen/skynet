@@ -6,6 +6,8 @@
 3rd/lua/luac
 /cservice
 /luaclib
+/cmake-build-debug
+/build
 *.so
 *.dSYM
 .DS_Store
