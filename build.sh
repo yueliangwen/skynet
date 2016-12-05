@@ -3,9 +3,9 @@
 #####################################################################################
 #  @Filename: build.sh
 #  @Brief   : 
-#  @Auth    : chenx
-#  @Date    : 2013-12-19
-#  @Version : ver 1.0
+#  @Auth    : yuelw
+#  @Date    : 2016-12-05
+#  @Version : ver 1.1
 #  @Function: 
 #  @Inparam : NA
 #  @Outparam: NA
