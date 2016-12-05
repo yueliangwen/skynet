@@ -10,7 +10,7 @@ elseif (WIN32)
     message(STATUS "Windows cannot support")
 elseif (UNIX)
     message(STATUS "Now is UNIX-like OS's. Including Apple osx and CygWin")
-    set(SHARED_FLAGS "${SHARED_FLAGS} -fPIC -dynamiclib -Wl,-undefined,dynamic_lookup")
+    set(SHARED_FLAGS "${SHARED_FLAGS} -dynamiclib -Wl,-undefined,dynamic_lookup")
     set(EXPORT "")
 endif ()
 
