@@ -1,4 +1,4 @@
-package.cpath = "luaclib/?.so"
+package.cpath = "cmake-build-debug/luaclib/?.so"
 package.path = "lualib/?.lua;examples/?.lua"
 
 if _VERSION ~= "Lua 5.3" then
