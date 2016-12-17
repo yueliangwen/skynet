@@ -4,14 +4,14 @@ project(skynet)
 set(SHARED_FLAGS "-fPIC --shared")
 set(EXPORT "-Wl,-E")
 
-if (LINUX)
-    message(STATUS "Now is LINUX")
+if (APPLE)
+	message(STATUS "Now is UNIX-like OS's. Including Apple osx and CygWin")
+	set(SHARED_FLAGS "${SHARED_FLAGS} -dynamiclib -Wl,-undefined,dynamic_lookup")
+	set(EXPORT "")
 elseif (WIN32)
-    message(STATUS "Windows cannot support")
+	message(STATUS "Windows cannot support")
 elseif (UNIX)
-    message(STATUS "Now is UNIX-like OS's. Including Apple osx and CygWin")
-    set(SHARED_FLAGS "${SHARED_FLAGS} -dynamiclib -Wl,-undefined,dynamic_lookup")
-    set(EXPORT "")
+	message(STATUS "Now is LINUX")
 endif ()
 
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall")
@@ -28,8 +28,8 @@ find_package(Threads)
 add_definitions(-DNOUSE_JEMALLOC)
 
 if ("${CMAKE_C_COMPILER_ID}" STREQUAL "TinyCC")
-    message(STATUS "using pthread lock")
-    add_definitions(-DUSE_PTHREAD_LOCK)
+	message(STATUS "using pthread lock")
+	add_definitions(-DUSE_PTHREAD_LOCK)
 endif ()
 
 include_directories(./3rd/lua)
@@ -40,30 +40,30 @@ add_subdirectory(./3rd/lua-md5)
 add_subdirectory(./3rd/lpeg)
 
 set(SKYNET_SOURCES service-src/service_logger.c
-        service-src/service_snlua.c
-        service-src/service_harbor.c
-        service-src/service_gate.c
+		service-src/service_snlua.c
+		service-src/service_harbor.c
+		service-src/service_gate.c
 
-        skynet-src/atomic.h skynet-src/skynet_env.c skynet-src/skynet_harbor.h skynet-src/skynet_module.h skynet-src/skynet_socket.c skynet-src/socket_poll.h
-        skynet-src/luashrtbl.h skynet-src/skynet_env.h skynet-src/skynet_imp.h skynet-src/skynet_monitor.c skynet-src/skynet_socket.h skynet-src/socket_server.c
-        skynet-src/malloc_hook.c skynet-src/skynet_error.c skynet-src/skynet_log.c skynet-src/skynet_monitor.h skynet-src/skynet_start.c skynet-src/socket_server.h
-        skynet-src/malloc_hook.h skynet-src/skynet.h skynet-src/skynet_log.h skynet-src/skynet_mq.c skynet-src/skynet_timer.c skynet-src/spinlock.h
-        skynet-src/rwlock.h skynet-src/skynet_handle.c skynet-src/skynet_main.c skynet-src/skynet_mq.h skynet-src/skynet_timer.h
-        skynet-src/skynet_daemon.c skynet-src/skynet_handle.h skynet-src/skynet_malloc.h skynet-src/skynet_server.c skynet-src/socket_epoll.h
-        skynet-src/skynet_daemon.h skynet-src/skynet_harbor.c skynet-src/skynet_module.c skynet-src/skynet_server.h skynet-src/socket_kqueue.h
+		skynet-src/atomic.h skynet-src/skynet_env.c skynet-src/skynet_harbor.h skynet-src/skynet_module.h skynet-src/skynet_socket.c skynet-src/socket_poll.h
+		skynet-src/luashrtbl.h skynet-src/skynet_env.h skynet-src/skynet_imp.h skynet-src/skynet_monitor.c skynet-src/skynet_socket.h skynet-src/socket_server.c
+		skynet-src/malloc_hook.c skynet-src/skynet_error.c skynet-src/skynet_log.c skynet-src/skynet_monitor.h skynet-src/skynet_start.c skynet-src/socket_server.h
+		skynet-src/malloc_hook.h skynet-src/skynet.h skynet-src/skynet_log.h skynet-src/skynet_mq.c skynet-src/skynet_timer.c skynet-src/spinlock.h
+		skynet-src/rwlock.h skynet-src/skynet_handle.c skynet-src/skynet_main.c skynet-src/skynet_mq.h skynet-src/skynet_timer.h
+		skynet-src/skynet_daemon.c skynet-src/skynet_handle.h skynet-src/skynet_malloc.h skynet-src/skynet_server.c skynet-src/socket_epoll.h
+		skynet-src/skynet_daemon.h skynet-src/skynet_harbor.c skynet-src/skynet_module.c skynet-src/skynet_server.h skynet-src/socket_kqueue.h
 
-        )
+		)
 
 add_library(lualib OBJECT
 
-        lualib-src/lsha1.c lualib-src/lua-cluster.c lualib-src/lua-memory.c lualib-src/lua-mysqlaux.c lualib-src/lua-seri.c lualib-src/lua-skynet.c
-        lualib-src/lua-bson.c lualib-src/lua-crypt.c lualib-src/lua-mongo.c lualib-src/lua-netpack.c lualib-src/lua-seri.h lualib-src/lua-socket.c
-        lualib-src/lua-clientsocket.c lualib-src/lua-debugchannel.c lualib-src/lua-multicast.c lualib-src/lua-profile.c lualib-src/lua-sharedata.c lualib-src/lua-stm.c
+		lualib-src/lsha1.c lualib-src/lua-cluster.c lualib-src/lua-memory.c lualib-src/lua-mysqlaux.c lualib-src/lua-seri.c lualib-src/lua-skynet.c
+		lualib-src/lua-bson.c lualib-src/lua-crypt.c lualib-src/lua-mongo.c lualib-src/lua-netpack.c lualib-src/lua-seri.h lualib-src/lua-socket.c
+		lualib-src/lua-clientsocket.c lualib-src/lua-debugchannel.c lualib-src/lua-multicast.c lualib-src/lua-profile.c lualib-src/lua-sharedata.c lualib-src/lua-stm.c
 
 
-        lualib-src/sproto/lsproto.c lualib-src/sproto/msvcint.h lualib-src/sproto/sproto.c lualib-src/sproto/sproto.h
+		lualib-src/sproto/lsproto.c lualib-src/sproto/msvcint.h lualib-src/sproto/sproto.c lualib-src/sproto/sproto.h
 
-        )
+		)
 
 add_library(skynet_shared SHARED lualib-src/lua-skynet.c lualib-src/lua-seri.c)
 add_library(socketdriver SHARED lualib-src/lua-socket.c)
@@ -86,8 +86,8 @@ add_library(debugchannel SHARED lualib-src/lua-debugchannel.c)
 set_target_properties(skynet_shared PROPERTIES OUTPUT_NAME "skynet")
 set_target_properties(lpeg_shared PROPERTIES OUTPUT_NAME "lpeg")
 set_target_properties(skynet_shared socketdriver bson mongo md5 netpack clientsocket memory profile multicast
-        cluster crypt sharedata stm sproto lpeg_shared mysqlaux debugchannel
-        PROPERTIES PREFIX "" SUFFIX ".so" LINK_FLAGS "${SHARED_FLAGS}" LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/luaclib")
+		cluster crypt sharedata stm sproto lpeg_shared mysqlaux debugchannel
+		PROPERTIES PREFIX "" SUFFIX ".so" LINK_FLAGS "${SHARED_FLAGS}" LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/luaclib")
 set_target_properties(clientsocket PROPERTIES LINK_FLAGS "${SHARED_FLAGS} -lpthread")
 
 add_library(logger SHARED service-src/service_logger.c)
@@ -95,7 +95,7 @@ add_library(snlua SHARED service-src/service_snlua.c)
 add_library(harbor SHARED service-src/service_harbor.c)
 add_library(gate SHARED service-src/service_gate.c)
 set_target_properties(logger snlua harbor gate
-        PROPERTIES PREFIX "" SUFFIX ".so" LINK_FLAGS "${SHARED_FLAGS}" LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/cservice")
+		PROPERTIES PREFIX "" SUFFIX ".so" LINK_FLAGS "${SHARED_FLAGS}" LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/cservice")
 
 aux_source_directory(skynet-src SKYNET_SRCS)
 #add_executable(skynet ${SKYNET_SRCS})
